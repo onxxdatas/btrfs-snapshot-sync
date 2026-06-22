@@ -1,0 +1,20 @@
+[Unit]
+Description=Btrfs Snapshot Backup
+After=network-online.target
+Wants=network-online.target
+ConditionPathIsMountPoint=/mnt/snapshots
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/btrfs-snapshot-sync run
+User=root
+Group=root
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=btrfs-snapshot-sync
+
+TimeoutStartSec=3600
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
